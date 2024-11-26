@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.microservice.Name }}
+    app.tool.name: DMB-DSB
+  name: {{ .Values.microservice.Name }}
+  namespace: {{ .Values.microservice.namespace }}
+spec:  
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.microservice.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.microservice.Name }}
+        version: v1
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.microservice.imageSecret }}
+      containers:
+      - env:
+        - name: PROFILE
+          value: {{ .Values.microservice.profile }}
+        - name: CONFIG_SERVER_URI
+          value: {{ .Values.microservice.configServerURI }}
+        - name: bootstrap-servers
+          value: {{ .Values.microservice.kafkaUrl }}
+        - name: server.mongodb.uri
+          value: {{ .Values.microservice.mongoDbUri }}  
+        image: {{ .Values.microservice.image }}
+        imagePullPolicy: {{ .Values.microservice.PullPolicy }}
+        name: {{ .Values.microservice.Name }}
+        ports:
+        - containerPort: {{ .Values.microservice.containerport }}
+        - containerPort: {{ .Values.microservice.containerporthttps }}
+        resources: {}
+        volumeMounts:
+        - mountPath: /tmp/logs
+          name: {{ .Values.microservice.Name }}
+        - mountPath: /opt/config
+          name: config-volume
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.microservice.Name }}  
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+      - name: {{ .Values.microservice.Name }}
+        emptyDir: {}
+      - name: config-volume
+        configMap:
+          name: {{ .Values.microservice.Name }}
+        

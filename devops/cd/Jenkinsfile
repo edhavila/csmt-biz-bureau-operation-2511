@@ -1,0 +1,226 @@
+def  readconfigfile='', configserveruri='';
+def appDeployProcess;
+def props;
+def propsvault;
+def  configServerUrl='';
+def profile='';
+def version='';
+def USER='';
+def AZCLI_HOME = "/opt/tools/azure-cli";
+
+pipeline{
+    agent {
+       kubernetes {
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+     label: agent
+spec:
+  volumes:
+  - name: dind-storage
+    emptyDir: {}
+  containers:
+  - name: jnlp
+    image: 'de.icr.io/hcs-dmb/jenkins/inbound-agent:latest-jdk21'
+    imagePullPolicy: IfNotPresent
+    args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+    securityContext: 
+      runAsUser: 0
+      runAsGroup: 0
+    env:
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      - name: DOCKER_HOST
+        value: tcp://localhost:2375
+  - name: docker
+    image: de.icr.io/hcs-dmb/docker:24.0-dind
+    securityContext:
+        privileged: true 
+    volumeMounts:
+        - name: dind-storage
+          mountPath: /var/lib/docker
+  - name: maven
+    image: registry.access.redhat.com/ubi9/openjdk-21:1.18-3
+    command:
+    - cat
+    tty: true
+    imagePullPolicy: IfNotPresent
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+  - name: ansible
+    image: de.icr.io/hcs-dmb/apb-base:1.0
+    command:
+    - cat
+    tty: true
+    imagePullPolicy: IfNotPresent
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+  - name: sonarscanner
+    image: de.icr.io/hcs-dmb/sonarsource/sonar-scanner-cli:4.8
+    command:
+    - cat
+    tty: true
+    imagePullPolicy: IfNotPresent
+    securityContext: # https://github.com/GoogleContainerTools/kaniko/issues/681
+      runAsUser: 0
+      runAsGroup: 0
+  - name: oc-cli
+    image: registry.redhat.io/openshift4/ose-cli@sha256:4935f55e6eb46c44f6281b95573f51bbf51b3d6e7b9a209716f7382d5cf50a86
+    command:
+    - cat
+    tty: true
+    imagePullPolicy: IfNotPresent
+    securityContext: # https://github.com/GoogleContainerTools/kaniko/issues/681
+      runAsUser: 0
+      runAsGroup: 0
+      """
+      }
+    }
+
+stages{
+
+    stage('Pulling deployment details') {
+        steps {
+            script{
+                        try {
+                    checkout scm
+                    props = readProperties file: """devops/deploy.properties"""
+                    
+                    //Overriding the properties if available in parameter for higher environments
+                    props['configserveruri'] = "${configServerUrl}" ?: props['configserveruri']
+                    echo "Using " + props['configserveruri'] + " Config server url."
+                    props['deploy.defaultEnvironment'] = "${profile}" ?: props['deploy.defaultEnvironment']
+                    echo "Using \"" + props['deploy.defaultEnvironment'] + "\" profile."
+                    props['api.version'] = "${version}" ?: props['api.version']
+                    echo "Using \"" + props['api.version'] + "\" docker version."
+
+                    
+                }
+                catch (e) {
+                    currentBuild.result = 'FAILURE'
+                    sh """rm -rf  credential.properties vault.json"""
+                    echo """${e.getMessage()}"""
+                    throw e
+                }
+                catch (error) {
+                    currentBuild.result = 'FAILURE'
+                    sh """rm -rf  credential.properties vault.json"""
+                    echo """${error.getMessage()}"""
+                    throw error
+                }
+            }
+            }
+    }
+
+
+     stage('Deploy to Azure AKS ansible') {
+        try {
+             env['API_NAME'] = props['deploy.app']
+			 env['APP_NAME'] = env.API_NAME
+			 env['IMAGE_TAG'] = props['api.version'] 
+            withCredentials([string(credentialsId: 'azure-client-id', variable: 'AZ_CLIENT_ID'),
+                            string(credentialsId: 'azure-client-secret', variable: 'AZ_CLIENT_SECRET'),
+                            string(credentialsId: 'azure-tenant-id', variable: 'AZ_TENANT_ID'),
+                            string(credentialsId: 'azure-subs-id', variable: 'AZ_SUBS_ID'),
+                            string(credentialsId: 'azure-aks-cluster', variable: 'AZ_AKS_CLUSTER'),
+                            string(credentialsId: 'azure-rsrc-grp', variable: 'AZ_RSRC_GRP'),
+                            string(credentialsId: 'azure-aks-namespace', variable: 'AZ_AKS_NAMESPACE'),
+                            string(credentialsId: 'azure-acr-url', variable: 'AZ_ACR_URL')]){
+                    IC_REG_URL= """${AZ_ACR_URL}"""
+                    IMAGE_NAME = """${AZ_ACR_URL}/${props['deploy.app']}"""
+                    def deployAppName = """${API_NAME}"""
+                    def helmChartValue = readYaml file: "devops/cd/helmchart/$deployAppName/values.yaml"
+                           
+                    def tempFolderName = """${BUILD_TAG}"""
+                    println " tempFolderName " + """${tempFolderName}"""
+
+                    helmChartValue.microservice.image = """${IMAGE_NAME}:${IMAGE_TAG}"""
+
+                    helmChartValue.microservice.namespace = """${AZ_AKS_NAMESPACE}"""
+
+                    helmChartValue.microservice.profile = props['deploy.defaultEnvironment'].replaceAll("\'", "");
+                    helmChartValue.microservice.configServerURI = """${props['configserveruri']}"""
+                    helmChartValue.microservice.database = """${props['database']}"""
+                    helmChartValue.microservice.dataSourcePort = """${props['dataSourcePort']}"""
+                    helmChartValue.microservice.dataSourceHost = """${props['dataSourceHost']}"""
+                    helmChartValue.microservice.mongoDbUri = """${props['mongoDBURL']}"""
+                    helmChartValue.microservice.mongodbAuthentication = """${props['mongodbAuthentication']}"""
+                    helmChartValue.microservice.kafkaUrl = """${props['serverKafkaUrl']}"""
+                    fileOperations([fileDeleteOperation(excludes: '', includes: "devops/cd/helmchart/$deployAppName/values.yaml")])
+                    writeYaml file: "devops/cd/helmchart/$deployAppName/values.yaml", data: helmChartValue
+                    	sh """
+                            echo --- > external_vars.yml
+                            echo TARGET_SERVER_IP: ${props['AzureEnvironmentURL']} >> external_vars.yml
+                            echo NAMESPACE: ${AZ_AKS_NAMESPACE} >> external_vars.yml
+                        """
+                   
+                        sh """
+                            echo API_NAME: ${props['deploy.app']} >> external_vars.yml
+                            echo IMAGE_TAG: ${props['api.version']} >> external_vars.yml
+                            echo AZ_CLIENT_ID: ${AZ_CLIENT_ID} >> external_vars.yml
+                            echo AZ_CLIENT_SECRET: ${AZ_CLIENT_SECRET} >> external_vars.yml
+                            echo AZ_TENANT_ID: ${AZ_TENANT_ID} >> external_vars.yml
+                            echo AZ_AKS_CLUSTER: ${AZ_AKS_CLUSTER} >> external_vars.yml
+                            echo AZ_RSRC_GRP: ${AZ_RSRC_GRP} >> external_vars.yml
+                            echo AZ_SUBS_ID: ${AZ_SUBS_ID} >> external_vars.yml
+                            echo PORT_TO_DEPLOY_CONTAINER: ${props['app.port']} >> external_vars.yml
+                            echo RUNID: ${props['run.id']} >> external_vars.yml
+                            echo FOLDER_NAME: ${tempFolderName} >> external_vars.yml
+                            echo IMPLEMENTATION_TYPE: ${props['api.implementation.type']} >> external_vars.yml
+                            echo PORT_TO_DEPLOY_CONTAINER_MICRO: ${props['app.httpsport']} >> external_vars.yml
+
+                        """
+                          
+                         sh """
+                            export PATH=${AZCLI_HOME}/bin:$PATH
+                            echo REGISTRY_HOST_AND_PORT: ${IC_REG_URL} >> external_vars.yml
+                            echo DYNAMIC_PORT_UPDATEA_URL: ${props['runManagementIP']} >> external_vars.yml
+                            mkdir -p ansibleDir/${tempFolderName}
+                            cp devops/cd/azure-aks-playbook-template.yml ansibleDir/${tempFolderName}/playbook.yml
+                            cp devops/cd/inventory.py ansibleDir/${tempFolderName}/inventory.py
+                            cp external_vars.yml ansibleDir/${tempFolderName}/external_vars.yml 
+                            chmod 0777 ansibleDir/${tempFolderName}/inventory.py
+                            cp -r ./devops/cd/helmchart ansibleDir/${tempFolderName} 
+                            ansible-playbook -i ansibleDir/${tempFolderName}/inventory.py ansibleDir/${tempFolderName}/playbook.yml
+                             az login --service-principal -u ${AZ_CLIENT_ID} -p ${AZ_CLIENT_SECRET} --tenant ${AZ_TENANT_ID}
+                             az aks get-credentials --resource-group ${AZ_RSRC_GRP} --name ${AZ_AKS_CLUSTER}
+                             kubectl get svc ${API_NAME} -n ${AZ_AKS_NAMESPACE} -o jsonpath={.status.loadBalancer.ingress[].ip}
+                        """
+             }                                     
+        }
+        catch (e) {
+            currentBuild.result = 'FAILURE'
+            throw e
+        }
+    }
+
+
+    stage('Validate Microservice Deployment') {
+      steps {
+        container('ansible') {
+         script{
+          try {
+                        }
+          catch (error) {
+              currentBuild.result = 'UNSTABLE'
+              echo """${error.getMessage()}"""
+              sh """rm -rf  credential.properties vault.json"""
+          }
+	  
+	}
+       }
+      }
+    }
+ 
+
+
+
+
+}
+}

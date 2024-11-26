@@ -1,0 +1,2107 @@
+openapi: 3.0.1
+info:
+  description: API para realizar consultas de buró de crédito con datos personales
+    y financieros.
+  title: CSMT-BIZ-BUREAU-OPERATION
+  version: "0.1"
+servers:
+- description: Dev
+  url: https://localhost
+paths:
+  /api/biz/v1/csmt/customer/bureau/score/post:
+    post:
+      description: Endpoint para realizar consultas de buró de crédito usando estructuras
+        de datos complejas.
+      parameters:
+      - description: Identificador único de la traza para correlacionar eventos y
+          logs a lo largo de la traza de una transacción.
+        example: 123e4567-e89b-12d3-a456-426614174000
+        explode: false
+        in: header
+        name: X-B3-TraceId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: Identificador único para el trabajo que realiza la llamada en
+          el servicio actual.
+        example: abc123def456
+        explode: false
+        in: header
+        name: X-B3-SpanId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: "ID del Span del llamador, que es el Span ID del servicio o componente\
+          \ que inició la llamada."
+        example: 789abc456def
+        explode: false
+        in: header
+        name: X-B3-ParentSpanId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: "Indica si la traza actual debe ser registrada o no. (1 = sí\
+          , 0 = no)"
+        example: "1"
+        explode: false
+        in: header
+        name: X-B3-Sampled
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultaScoreRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaScoreResponse'
+          description: Éxito en la consulta del buró de crédito
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unprocessable content
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      summary: Realiza una consulta de score buró de crédito
+      tags:
+      - get-bureau-score
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: get-bureau-score
+  /api/biz/v1/csmt/customer/bureau/detail/post:
+    post:
+      description: Endpoint para realizar consultas de buró de crédito usando estructuras
+        de datos complejas.
+      parameters:
+      - description: Identificador único de la traza para correlacionar eventos y
+          logs a lo largo de la traza de una transacción.
+        example: 123e4567-e89b-12d3-a456-426614174000
+        explode: false
+        in: header
+        name: X-B3-TraceId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: Identificador único para el trabajo que realiza la llamada en
+          el servicio actual.
+        example: abc123def456
+        explode: false
+        in: header
+        name: X-B3-SpanId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: "ID del Span del llamador, que es el Span ID del servicio o componente\
+          \ que inició la llamada."
+        example: 789abc456def
+        explode: false
+        in: header
+        name: X-B3-ParentSpanId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: "Indica si la traza actual debe ser registrada o no. (1 = sí\
+          , 0 = no)"
+        example: "1"
+        explode: false
+        in: header
+        name: X-B3-Sampled
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultaDetalleRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaDetalleResponse'
+          description: Éxito en la consulta del buró de crédito
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unprocessable content
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      summary: Realiza una consulta de detalle buró de crédito
+      tags:
+      - get-bureau-detail
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: get-bureau-detail
+  /api/biz/v1/csmt/customer/bureau/report/post:
+    post:
+      description: Endpoint para conciliaciones de área de riesgos
+      parameters:
+      - description: Identificador único de la traza para correlacionar eventos y
+          logs a lo largo de la traza de una transacción.
+        example: 123e4567-e89b-12d3-a456-426614174000
+        explode: false
+        in: header
+        name: X-B3-TraceId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: Identificador único para el trabajo que realiza la llamada en
+          el servicio actual.
+        example: abc123def456
+        explode: false
+        in: header
+        name: X-B3-SpanId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: "ID del Span del llamador, que es el Span ID del servicio o componente\
+          \ que inició la llamada."
+        example: 789abc456def
+        explode: false
+        in: header
+        name: X-B3-ParentSpanId
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: "Indica si la traza actual debe ser registrada o no. (1 = sí\
+          , 0 = no)"
+        example: "1"
+        explode: false
+        in: header
+        name: X-B3-Sampled
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultaResumenRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultaResumenResponse'
+          description: Éxito en la consulta del buró de crédito
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unprocessable content
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      summary: Realiza una consulta de las llamadas a buró de crédito en un periodo
+        determinado
+      tags:
+      - get-bureau-report
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: get-bureau-report
+components:
+  parameters:
+    TraceId:
+      description: Identificador único de la traza para correlacionar eventos y logs
+        a lo largo de la traza de una transacción.
+      example: 123e4567-e89b-12d3-a456-426614174000
+      explode: false
+      in: header
+      name: X-B3-TraceId
+      required: false
+      schema:
+        type: string
+      style: simple
+    SpanId:
+      description: Identificador único para el trabajo que realiza la llamada en el
+        servicio actual.
+      example: abc123def456
+      explode: false
+      in: header
+      name: X-B3-SpanId
+      required: false
+      schema:
+        type: string
+      style: simple
+    ParentSpanId:
+      description: "ID del Span del llamador, que es el Span ID del servicio o componente\
+        \ que inició la llamada."
+      example: 789abc456def
+      explode: false
+      in: header
+      name: X-B3-ParentSpanId
+      required: false
+      schema:
+        type: string
+      style: simple
+    Sampled:
+      description: "Indica si la traza actual debe ser registrada o no. (1 = sí, 0\
+        \ = no)"
+      example: "1"
+      explode: false
+      in: header
+      name: X-B3-Sampled
+      required: false
+      schema:
+        type: string
+      style: simple
+  schemas:
+    ConsultaScoreRequest:
+      example:
+        consultaBuroRequest:
+          Nombre:
+            ApellidoMaterno: UNO
+            SegundoNombre: ""
+            EdadesDependientes: ""
+            Sufijo: ""
+            NumeroLicenciaConducir: ""
+            NumeroRegistroElectoral: ""
+            ApellidoAdicional: ""
+            RFC: NOPJ800101
+            Sexo: ""
+            FechaNacimiento: "01011980"
+            Prefijo: ""
+            Residencia: ""
+            ApellidoPaterno: PRUEBA
+            NumeroCedulaProfesional: ""
+            PrimerNombre: !!binary |-
+              SlVBTg==
+            Nacionalidad: MX
+            NumeroDependientes: ""
+            EstadoCivil: ""
+            ClaveOtroPais: ""
+            ClaveImpuestosOtroPais: ""
+          Domicilios:
+            Domicilio:
+              Direccion2: ""
+              DelegacionMunicipio: MIGUEL HIDALGO
+              CodPais: MX
+              Direccion1: JAIME BALMES 8
+              NumeroTelefono: ""
+              Ciudad: CD DE MEXICO
+              CP: "11510"
+              Estado: DF
+              Extension: ""
+              FechaResidencia: ""
+              TipoDomicilio: ""
+              ColoniaPoblacion: LOS MORALES POLANCO
+              IndicadorEspecialDomicilio: ""
+              Fax: ""
+          Encabezado:
+            TipoConsulta: I
+            Idioma: ES
+            TipoSalida: 2000-01-23T04:56:07.000+00:00
+            TipoContrato: CC
+            Version: "13"
+            IdentificadorBuro: 2000-01-23
+            ClavePais: MX
+            NumeroReferenciaOperador: 122000854270 1 7086142637
+            ClaveUnidadMonetaria: MX
+            ClaveUsuario: XX99999999
+            ProductoRequerido: "007"
+            Password: 1ABCDefg
+          Empleos:
+            Empleo:
+              Direccion2: ""
+              DelegacionMunicipio: BENITO JUAREZ
+              Cargo: ""
+              CodPais: MX
+              Direccion1: AVENIDA DIVISION DEL NORTE 1611
+              NumeroTelefono: ""
+              Ciudad: CIUDAD DE MEXICO
+              NumeroEmpleado: ""
+              CP: "03100"
+              NombreEmpresa: DELEGACION BENITO JUAREZ
+              Estado: DF
+              Extension: ""
+              BaseSalarial: ""
+              ColoniaPoblacion: SANTA CRUZ ATOYAC
+              FechaContratacion: ""
+              Fax: ""
+              FechaUltimoDiaEmpleo: ""
+              ClaveMonedaSalario: ""
+              Salario: ""
+        configuracionBuro:
+          forzarConsulta: true
+          vigenciaMaxima: 60
+      properties:
+        configuracionBuro:
+          $ref: '#/components/schemas/ConfiguracionBuroRequest'
+        consultaBuroRequest:
+          $ref: '#/components/schemas/ConsultaBuroRequest'
+    ConsultaScoreResponse:
+      example:
+        fechaConsulta: 2012-04-23T18:25:43.511Z
+        score: 600
+        aprobado: true
+      properties:
+        aprobado:
+          description: Estatus de la consulta al score
+          example: true
+          type: boolean
+        score:
+          description: Score obtendio del buró
+          example: 600
+          type: number
+        fechaConsulta:
+          description: Fecha de la consulta al score
+          example: 2012-04-23T18:25:43.511Z
+          format: date-time
+          type: string
+    ConsultaDetalleRequest:
+      example:
+        consultaBuroRequest:
+          Nombre:
+            ApellidoMaterno: UNO
+            SegundoNombre: ""
+            EdadesDependientes: ""
+            Sufijo: ""
+            NumeroLicenciaConducir: ""
+            NumeroRegistroElectoral: ""
+            ApellidoAdicional: ""
+            RFC: NOPJ800101
+            Sexo: ""
+            FechaNacimiento: "01011980"
+            Prefijo: ""
+            Residencia: ""
+            ApellidoPaterno: PRUEBA
+            NumeroCedulaProfesional: ""
+            PrimerNombre: !!binary |-
+              SlVBTg==
+            Nacionalidad: MX
+            NumeroDependientes: ""
+            EstadoCivil: ""
+            ClaveOtroPais: ""
+            ClaveImpuestosOtroPais: ""
+          Domicilios:
+            Domicilio:
+              Direccion2: ""
+              DelegacionMunicipio: MIGUEL HIDALGO
+              CodPais: MX
+              Direccion1: JAIME BALMES 8
+              NumeroTelefono: ""
+              Ciudad: CD DE MEXICO
+              CP: "11510"
+              Estado: DF
+              Extension: ""
+              FechaResidencia: ""
+              TipoDomicilio: ""
+              ColoniaPoblacion: LOS MORALES POLANCO
+              IndicadorEspecialDomicilio: ""
+              Fax: ""
+          Encabezado:
+            TipoConsulta: I
+            Idioma: ES
+            TipoSalida: 2000-01-23T04:56:07.000+00:00
+            TipoContrato: CC
+            Version: "13"
+            IdentificadorBuro: 2000-01-23
+            ClavePais: MX
+            NumeroReferenciaOperador: 122000854270 1 7086142637
+            ClaveUnidadMonetaria: MX
+            ClaveUsuario: XX99999999
+            ProductoRequerido: "007"
+            Password: 1ABCDefg
+          Empleos:
+            Empleo:
+              Direccion2: ""
+              DelegacionMunicipio: BENITO JUAREZ
+              Cargo: ""
+              CodPais: MX
+              Direccion1: AVENIDA DIVISION DEL NORTE 1611
+              NumeroTelefono: ""
+              Ciudad: CIUDAD DE MEXICO
+              NumeroEmpleado: ""
+              CP: "03100"
+              NombreEmpresa: DELEGACION BENITO JUAREZ
+              Estado: DF
+              Extension: ""
+              BaseSalarial: ""
+              ColoniaPoblacion: SANTA CRUZ ATOYAC
+              FechaContratacion: ""
+              Fax: ""
+              FechaUltimoDiaEmpleo: ""
+              ClaveMonedaSalario: ""
+              Salario: ""
+        configuracionBuro:
+          forzarConsulta: true
+          vigenciaMaxima: 60
+      properties:
+        configuracionBuro:
+          $ref: '#/components/schemas/ConfiguracionBuroRequest'
+        consultaBuroRequest:
+          $ref: '#/components/schemas/ConsultaBuroRequest'
+    ConsultaDetalleResponse:
+      example:
+        consultaBuroResponse:
+          Nombre:
+            FechaNacimiento: "01011980"
+            Prefijo: SR
+            ApellidoMaterno: UNO
+            Residencia: "1"
+            ApellidoPaterno: PRUEBA
+            PrimerNombre: !!binary |-
+              SlVBTg==
+            Nacionalidad: MX
+            EstadoCivil: M
+            RFC: NOPJ800101
+            Sexo: M
+          Cuentas:
+            Cuenta:
+              SaldoVencido: "0"
+              SaldoActual: 10000+
+              IdentificadorCAN: "02010100"
+              NumeroCuentaActual: "989898121212"
+              ModoReportar: M
+              TipoCuenta: I
+              ClaveUnidadMonetaria: MX
+              CreditoMaximo: "50000"
+              FechaUltimaCompra: "01012016"
+              FormaPagoActual: 2000-01-23T04:56:07.000+00:00
+              FechaUltimoPago: "01012016"
+              FechaActualizacion: "20062016"
+              FechaReporte: "09052016"
+              NumeroPagos: "48"
+              FechaAperturaCuenta: "01012016"
+              HistoricoCAN: 11-2
+              FechaMasAntiguaHistoricoCAN: "04092019"
+              IndicadorTipoResponsabilidad: I
+              FechaCancelacionCAN: "01012020"
+              TipoContrato: AU
+              FechaMasRecienteHistoricoCAN: "04122019"
+              NombreOtorgante: BC 1TN
+              LimiteCredito: "50000"
+              FechaAperturaCAN: "01012019"
+              IdentificadorCredito: "Y"
+              ClaveOtorgante: XX99999999
+              MontoPagar: 2000-01-23
+              MontoUltimoPago: 2000-01-23
+              FrecuenciaPagos: M
+          ConsultasEfectuadas:
+            ConsultaEfectuada:
+              FechaConsulta: "05072016"
+              IndicadorTipoResponsabilidad: I
+              ClaveOtorgante: XX99999999
+              TipoContrato: CC
+              NombreOtorgante: BURO DE CREDITO
+              ImporteContrato: "0"
+          HawkAlertConsulta:
+            HawkAlertC:
+              Mensaje: DATOS GENERALES - COINCIDENCIA POR RFC
+              CodigoClave: "020"
+              FechaReporte: "31072014"
+              TipoInstitucion: FINANCIERA
+          Domicilios:
+            Domicilio:
+              DelegacionMunicipio: MIGUEL HIDALGO
+              CodPais: MX
+              Direccion1: INSUR SUR 1007
+              FechaReporteDireccion: "04032016"
+              Ciudad: CD DE MEXICO
+              CP: "11230"
+              Estado: DF
+          HawkAlertBD:
+            HawkAlertBD:
+              Mensaje: DOM. PARTICULAR 3 - COINCIDENCIA POR DOMICILIO
+              CodigoClave: "010"
+              FechaReporte: "13082015"
+              TipoInstitucion: FINANCIERA
+          DeclaracionesCliente:
+            DeclaracionConsumidor: DECLARATIVA GENERAL
+          Encabezado:
+            ClaveRetornoConsumidorSecundario: "0"
+            NumeroControlConsulta: "1212121212"
+            ClaveOtorgante: XX99999999
+            IdentificadorBuro: 2000-01-23
+            ClavePais: MX
+            NumeroReferenciaOperador: 122000854270 1 7086142637
+            ClaveRetornoConsumidorPrincipal: "1"
+          ResumenReporte:
+            ResumenReporte:
+              TotalSaldosVencidosRevolventes: 2000-01-23
+              NumeroMOPUR: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP96: 2000-01-23T04:56:07.000+00:00
+              PctLimiteCreditoUtilizadoRevolventes: "2"
+              CuentasClavesHistoriaNegativa: 2000-01-23
+              NuevaDireccionReportadaUltimos60Dias: "N"
+              MensajesAlerta: NNNYN
+              TotalPagosPagosFijos: 2000-01-23
+              CuentasPagosFijosHipotecas: 2000-01-23
+              FechaAperturaCuentaMasAntigua: "01012010"
+              CuentasRevolventesAbiertas: 2000-01-23
+              TotalSolicitudesReporte: "99"
+              FechaSolicitudReporteMasReciente: "05072016"
+              ExistenciaDeclaracionesConsumidor: "N"
+              NumeroMOP99: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP1: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP0: 2000-01-23T04:56:07.000+00:00
+              TotalLimitesCreditoRevolventes: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP97: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP7: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP6: 2000-01-23T04:56:07.000+00:00
+              CuentasCerradas: 2000-01-23
+              NumeroTotalCuentasDespachoCobranza: 2000-01-23T04:56:07.000+00:00
+              NumeroTotalSolicitudesDespachosCobranza: 2000-01-23T04:56:07.000+00:00
+              FechaSolicitudMasRecienteDespachoCobranza: "00000000"
+              NumeroMOP3: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP2: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP5: 2000-01-23T04:56:07.000+00:00
+              NumeroMOP4: 2000-01-23T04:56:07.000+00:00
+              TotalCreditosMaximosPagosFijos: 2000-01-23T04:56:07.000+00:00
+              CuentasNegativasActuales: 2000-01-23
+              TotalSaldosVencidosPagosFijos: "0"
+              FechaIngresoBD: "23052013"
+              FechaAperturaCuentaMasRecienteDespachoCobranza: "00000000"
+              NumeroCuentas: 2000-01-23
+              TotalSaldosActualesPagosFijos: 19469+
+              CuentasDisputa: 2000-01-23T04:56:07.000+00:00
+              TotalPagosRevolventes: 2000-01-23
+              NumeroSolicitudesUltimos6Meses: "99"
+              FechaAperturaCuentaMasReciente: "01012016"
+              TipoMoneda: MX
+              TotalSaldosActualesRevolventes: 4270+
+          ScoreBuroCredito:
+            ScoreBC:
+              CodigoRazon: "13"
+              nombreScore: BC SCORE
+              ValorScore: 2000-01-23
+              CodigoScore: "007"
+          Empleos:
+            Empleo:
+              CodPais: MX
+              Direccion1: ""
+              FechaReportoEmpleo: "14032016"
+              ModoVerificacion: M
+              FechaVerificacion: "14032016"
+              NombreEmpresa: JUBILADO
+      properties:
+        consultaBuroResponse:
+          $ref: '#/components/schemas/ConsultaBuroResponse'
+    ConsultaResumenRequest:
+      example:
+        FechaFin: yyyy/mm/dd
+        FechaInicio: yyyy/mm/dd
+      properties:
+        FechaInicio:
+          description: Fecha inicial de la consulta
+          example: yyyy/mm/dd
+          type: string
+        FechaFin:
+          description: Fecha inicial de la consulta
+          example: yyyy/mm/dd
+          type: string
+    ConsultaResumenResponse:
+      description: "Reporte de consultas a buro agrupado por ProductoRequerido, ClaveUsuario"
+      items:
+        $ref: '#/components/schemas/ConsultaResumenResponse_inner'
+      type: array
+    ConfiguracionBuroRequest:
+      example:
+        forzarConsulta: true
+        vigenciaMaxima: 60
+      properties:
+        forzarConsulta:
+          description: Forzar consulta a buró aunque exista una previa vigente
+          example: true
+          type: boolean
+        vigenciaMaxima:
+          description: Vigencia máxima en días
+          example: 60
+          type: number
+      type: object
+    ConsultaBuroRequest:
+      example:
+        Nombre:
+          ApellidoMaterno: UNO
+          SegundoNombre: ""
+          EdadesDependientes: ""
+          Sufijo: ""
+          NumeroLicenciaConducir: ""
+          NumeroRegistroElectoral: ""
+          ApellidoAdicional: ""
+          RFC: NOPJ800101
+          Sexo: ""
+          FechaNacimiento: "01011980"
+          Prefijo: ""
+          Residencia: ""
+          ApellidoPaterno: PRUEBA
+          NumeroCedulaProfesional: ""
+          PrimerNombre: !!binary |-
+            SlVBTg==
+          Nacionalidad: MX
+          NumeroDependientes: ""
+          EstadoCivil: ""
+          ClaveOtroPais: ""
+          ClaveImpuestosOtroPais: ""
+        Domicilios:
+          Domicilio:
+            Direccion2: ""
+            DelegacionMunicipio: MIGUEL HIDALGO
+            CodPais: MX
+            Direccion1: JAIME BALMES 8
+            NumeroTelefono: ""
+            Ciudad: CD DE MEXICO
+            CP: "11510"
+            Estado: DF
+            Extension: ""
+            FechaResidencia: ""
+            TipoDomicilio: ""
+            ColoniaPoblacion: LOS MORALES POLANCO
+            IndicadorEspecialDomicilio: ""
+            Fax: ""
+        Encabezado:
+          TipoConsulta: I
+          Idioma: ES
+          TipoSalida: 2000-01-23T04:56:07.000+00:00
+          TipoContrato: CC
+          Version: "13"
+          IdentificadorBuro: 2000-01-23
+          ClavePais: MX
+          NumeroReferenciaOperador: 122000854270 1 7086142637
+          ClaveUnidadMonetaria: MX
+          ClaveUsuario: XX99999999
+          ProductoRequerido: "007"
+          Password: 1ABCDefg
+        Empleos:
+          Empleo:
+            Direccion2: ""
+            DelegacionMunicipio: BENITO JUAREZ
+            Cargo: ""
+            CodPais: MX
+            Direccion1: AVENIDA DIVISION DEL NORTE 1611
+            NumeroTelefono: ""
+            Ciudad: CIUDAD DE MEXICO
+            NumeroEmpleado: ""
+            CP: "03100"
+            NombreEmpresa: DELEGACION BENITO JUAREZ
+            Estado: DF
+            Extension: ""
+            BaseSalarial: ""
+            ColoniaPoblacion: SANTA CRUZ ATOYAC
+            FechaContratacion: ""
+            Fax: ""
+            FechaUltimoDiaEmpleo: ""
+            ClaveMonedaSalario: ""
+            Salario: ""
+      properties:
+        Encabezado:
+          $ref: '#/components/schemas/ConsultaBuroRequest_Encabezado'
+        Nombre:
+          $ref: '#/components/schemas/ConsultaBuroRequest_Nombre'
+        Domicilios:
+          $ref: '#/components/schemas/ConsultaBuroRequest_Domicilios'
+        Empleos:
+          $ref: '#/components/schemas/ConsultaBuroRequest_Empleos'
+      type: object
+    ConsultaBuroResponse:
+      example:
+        Nombre:
+          FechaNacimiento: "01011980"
+          Prefijo: SR
+          ApellidoMaterno: UNO
+          Residencia: "1"
+          ApellidoPaterno: PRUEBA
+          PrimerNombre: !!binary |-
+            SlVBTg==
+          Nacionalidad: MX
+          EstadoCivil: M
+          RFC: NOPJ800101
+          Sexo: M
+        Cuentas:
+          Cuenta:
+            SaldoVencido: "0"
+            SaldoActual: 10000+
+            IdentificadorCAN: "02010100"
+            NumeroCuentaActual: "989898121212"
+            ModoReportar: M
+            TipoCuenta: I
+            ClaveUnidadMonetaria: MX
+            CreditoMaximo: "50000"
+            FechaUltimaCompra: "01012016"
+            FormaPagoActual: 2000-01-23T04:56:07.000+00:00
+            FechaUltimoPago: "01012016"
+            FechaActualizacion: "20062016"
+            FechaReporte: "09052016"
+            NumeroPagos: "48"
+            FechaAperturaCuenta: "01012016"
+            HistoricoCAN: 11-2
+            FechaMasAntiguaHistoricoCAN: "04092019"
+            IndicadorTipoResponsabilidad: I
+            FechaCancelacionCAN: "01012020"
+            TipoContrato: AU
+            FechaMasRecienteHistoricoCAN: "04122019"
+            NombreOtorgante: BC 1TN
+            LimiteCredito: "50000"
+            FechaAperturaCAN: "01012019"
+            IdentificadorCredito: "Y"
+            ClaveOtorgante: XX99999999
+            MontoPagar: 2000-01-23
+            MontoUltimoPago: 2000-01-23
+            FrecuenciaPagos: M
+        ConsultasEfectuadas:
+          ConsultaEfectuada:
+            FechaConsulta: "05072016"
+            IndicadorTipoResponsabilidad: I
+            ClaveOtorgante: XX99999999
+            TipoContrato: CC
+            NombreOtorgante: BURO DE CREDITO
+            ImporteContrato: "0"
+        HawkAlertConsulta:
+          HawkAlertC:
+            Mensaje: DATOS GENERALES - COINCIDENCIA POR RFC
+            CodigoClave: "020"
+            FechaReporte: "31072014"
+            TipoInstitucion: FINANCIERA
+        Domicilios:
+          Domicilio:
+            DelegacionMunicipio: MIGUEL HIDALGO
+            CodPais: MX
+            Direccion1: INSUR SUR 1007
+            FechaReporteDireccion: "04032016"
+            Ciudad: CD DE MEXICO
+            CP: "11230"
+            Estado: DF
+        HawkAlertBD:
+          HawkAlertBD:
+            Mensaje: DOM. PARTICULAR 3 - COINCIDENCIA POR DOMICILIO
+            CodigoClave: "010"
+            FechaReporte: "13082015"
+            TipoInstitucion: FINANCIERA
+        DeclaracionesCliente:
+          DeclaracionConsumidor: DECLARATIVA GENERAL
+        Encabezado:
+          ClaveRetornoConsumidorSecundario: "0"
+          NumeroControlConsulta: "1212121212"
+          ClaveOtorgante: XX99999999
+          IdentificadorBuro: 2000-01-23
+          ClavePais: MX
+          NumeroReferenciaOperador: 122000854270 1 7086142637
+          ClaveRetornoConsumidorPrincipal: "1"
+        ResumenReporte:
+          ResumenReporte:
+            TotalSaldosVencidosRevolventes: 2000-01-23
+            NumeroMOPUR: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP96: 2000-01-23T04:56:07.000+00:00
+            PctLimiteCreditoUtilizadoRevolventes: "2"
+            CuentasClavesHistoriaNegativa: 2000-01-23
+            NuevaDireccionReportadaUltimos60Dias: "N"
+            MensajesAlerta: NNNYN
+            TotalPagosPagosFijos: 2000-01-23
+            CuentasPagosFijosHipotecas: 2000-01-23
+            FechaAperturaCuentaMasAntigua: "01012010"
+            CuentasRevolventesAbiertas: 2000-01-23
+            TotalSolicitudesReporte: "99"
+            FechaSolicitudReporteMasReciente: "05072016"
+            ExistenciaDeclaracionesConsumidor: "N"
+            NumeroMOP99: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP1: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP0: 2000-01-23T04:56:07.000+00:00
+            TotalLimitesCreditoRevolventes: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP97: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP7: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP6: 2000-01-23T04:56:07.000+00:00
+            CuentasCerradas: 2000-01-23
+            NumeroTotalCuentasDespachoCobranza: 2000-01-23T04:56:07.000+00:00
+            NumeroTotalSolicitudesDespachosCobranza: 2000-01-23T04:56:07.000+00:00
+            FechaSolicitudMasRecienteDespachoCobranza: "00000000"
+            NumeroMOP3: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP2: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP5: 2000-01-23T04:56:07.000+00:00
+            NumeroMOP4: 2000-01-23T04:56:07.000+00:00
+            TotalCreditosMaximosPagosFijos: 2000-01-23T04:56:07.000+00:00
+            CuentasNegativasActuales: 2000-01-23
+            TotalSaldosVencidosPagosFijos: "0"
+            FechaIngresoBD: "23052013"
+            FechaAperturaCuentaMasRecienteDespachoCobranza: "00000000"
+            NumeroCuentas: 2000-01-23
+            TotalSaldosActualesPagosFijos: 19469+
+            CuentasDisputa: 2000-01-23T04:56:07.000+00:00
+            TotalPagosRevolventes: 2000-01-23
+            NumeroSolicitudesUltimos6Meses: "99"
+            FechaAperturaCuentaMasReciente: "01012016"
+            TipoMoneda: MX
+            TotalSaldosActualesRevolventes: 4270+
+        ScoreBuroCredito:
+          ScoreBC:
+            CodigoRazon: "13"
+            nombreScore: BC SCORE
+            ValorScore: 2000-01-23
+            CodigoScore: "007"
+        Empleos:
+          Empleo:
+            CodPais: MX
+            Direccion1: ""
+            FechaReportoEmpleo: "14032016"
+            ModoVerificacion: M
+            FechaVerificacion: "14032016"
+            NombreEmpresa: JUBILADO
+      properties:
+        Encabezado:
+          $ref: '#/components/schemas/ConsultaBuroResponse_Encabezado'
+        Nombre:
+          $ref: '#/components/schemas/ConsultaBuroResponse_Nombre'
+        Domicilios:
+          $ref: '#/components/schemas/ConsultaBuroResponse_Domicilios'
+        Empleos:
+          $ref: '#/components/schemas/ConsultaBuroResponse_Empleos'
+        Cuentas:
+          $ref: '#/components/schemas/ConsultaBuroResponse_Cuentas'
+        ConsultasEfectuadas:
+          $ref: '#/components/schemas/ConsultaBuroResponse_ConsultasEfectuadas'
+        ResumenReporte:
+          $ref: '#/components/schemas/ConsultaBuroResponse_ResumenReporte'
+        HawkAlertConsulta:
+          $ref: '#/components/schemas/ConsultaBuroResponse_HawkAlertConsulta'
+        HawkAlertBD:
+          $ref: '#/components/schemas/ConsultaBuroResponse_HawkAlertBD'
+        DeclaracionesCliente:
+          $ref: '#/components/schemas/ConsultaBuroResponse_DeclaracionesCliente'
+        ScoreBuroCredito:
+          $ref: '#/components/schemas/ConsultaBuroResponse_ScoreBuroCredito'
+      type: object
+    ErrorResponse:
+      properties:
+        code:
+          example: HTTP Code
+          type: string
+        message:
+          example: 'Bad request / Unauthorized / Forbidden / Unprocessable content
+            / Internal server error  '
+          type: string
+        detail:
+          example: "Unexpected error occurred, please try again later."
+          type: string
+        timestamp:
+          example: 2024-10-24T14:55:29Z
+          format: date-time
+          type: string
+        type:
+          example: InternalServerError
+          type: string
+      type: object
+    ConsultaResumenResponse_inner_Reporte:
+      description: "Reporte de consultas a buro agrupado por ProductoRequerido, ClaveUsuario"
+      example:
+        FechaFin: yyyy/mm/dd
+        FechaInicio: yyyy/mm/dd
+        Producto: Producto
+        TotalConsultas: TotalConsultas
+        ClaveUsuario: ClaveUsuario
+      properties:
+        FechaInicio:
+          description: Fecha inicial de la consulta
+          example: yyyy/mm/dd
+          type: string
+        FechaFin:
+          description: Fecha inicial de la consulta
+          example: yyyy/mm/dd
+          type: string
+        Producto:
+          maxLength: 3
+          type: string
+        ClaveUsuario:
+          maxLength: 3
+          type: string
+        TotalConsultas:
+          maxLength: 3
+          type: string
+      type: object
+    ConsultaResumenResponse_inner_Detalle_inner_ScoreBuroCredito_inner:
+      example:
+        CodigoRazon: "13"
+        ValorScore: 2000-01-23
+        CodigoScore: "007"
+      properties:
+        CodigoScore:
+          example: "007"
+          type: string
+        ValorScore:
+          format: date
+          type: string
+        CodigoRazon:
+          example: "13"
+          type: string
+      type: object
+    ConsultaResumenResponse_inner_Detalle_inner:
+      example:
+        Fecha: 2000-01-23
+        Producto: Producto
+        IdentificadorBuro: IdentificadorBuro
+        ClaveUsuario: ClaveUsuario
+        FolioBuro: FolioBuro
+        ScoreBuroCredito:
+        - CodigoRazon: "13"
+          ValorScore: 2000-01-23
+          CodigoScore: "007"
+        - CodigoRazon: "13"
+          ValorScore: 2000-01-23
+          CodigoScore: "007"
+      properties:
+        Fecha:
+          format: date
+          type: string
+        Producto:
+          maxLength: 3
+          type: string
+        ClaveUsuario:
+          maxLength: 3
+          type: string
+        FolioBuro:
+          maxLength: 10
+          type: string
+        IdentificadorBuro:
+          maxLength: 99
+          type: string
+        ScoreBuroCredito:
+          description: Detalle Score
+          items:
+            $ref: '#/components/schemas/ConsultaResumenResponse_inner_Detalle_inner_ScoreBuroCredito_inner'
+          type: array
+      type: object
+    ConsultaResumenResponse_inner:
+      example:
+        Detalle:
+        - Fecha: 2000-01-23
+          Producto: Producto
+          IdentificadorBuro: IdentificadorBuro
+          ClaveUsuario: ClaveUsuario
+          FolioBuro: FolioBuro
+          ScoreBuroCredito:
+          - CodigoRazon: "13"
+            ValorScore: 2000-01-23
+            CodigoScore: "007"
+          - CodigoRazon: "13"
+            ValorScore: 2000-01-23
+            CodigoScore: "007"
+        - Fecha: 2000-01-23
+          Producto: Producto
+          IdentificadorBuro: IdentificadorBuro
+          ClaveUsuario: ClaveUsuario
+          FolioBuro: FolioBuro
+          ScoreBuroCredito:
+          - CodigoRazon: "13"
+            ValorScore: 2000-01-23
+            CodigoScore: "007"
+          - CodigoRazon: "13"
+            ValorScore: 2000-01-23
+            CodigoScore: "007"
+        Reporte:
+          FechaFin: yyyy/mm/dd
+          FechaInicio: yyyy/mm/dd
+          Producto: Producto
+          TotalConsultas: TotalConsultas
+          ClaveUsuario: ClaveUsuario
+      properties:
+        Reporte:
+          $ref: '#/components/schemas/ConsultaResumenResponse_inner_Reporte'
+        Detalle:
+          description: Detalle de cada consulta que conforma el reporte
+          items:
+            $ref: '#/components/schemas/ConsultaResumenResponse_inner_Detalle_inner'
+          type: array
+      type: object
+    ConsultaBuroRequest_Encabezado:
+      example:
+        TipoConsulta: I
+        Idioma: ES
+        TipoSalida: 2000-01-23T04:56:07.000+00:00
+        TipoContrato: CC
+        Version: "13"
+        IdentificadorBuro: 2000-01-23
+        ClavePais: MX
+        NumeroReferenciaOperador: 122000854270 1 7086142637
+        ClaveUnidadMonetaria: MX
+        ClaveUsuario: XX99999999
+        ProductoRequerido: "007"
+        Password: 1ABCDefg
+      properties:
+        Version:
+          example: "13"
+          type: string
+        NumeroReferenciaOperador:
+          example: 122000854270 1 7086142637
+          type: string
+        ProductoRequerido:
+          example: "007"
+          type: string
+        ClavePais:
+          example: MX
+          type: string
+        IdentificadorBuro:
+          format: date
+          type: string
+        ClaveUsuario:
+          example: XX99999999
+          type: string
+        Password:
+          example: 1ABCDefg
+          type: string
+        TipoConsulta:
+          example: I
+          type: string
+        TipoContrato:
+          example: CC
+          type: string
+        ClaveUnidadMonetaria:
+          example: MX
+          type: string
+        Idioma:
+          example: ES
+          type: string
+        TipoSalida:
+          format: date-time
+          type: string
+      type: object
+    ConsultaBuroRequest_Nombre:
+      example:
+        ApellidoMaterno: UNO
+        SegundoNombre: ""
+        EdadesDependientes: ""
+        Sufijo: ""
+        NumeroLicenciaConducir: ""
+        NumeroRegistroElectoral: ""
+        ApellidoAdicional: ""
+        RFC: NOPJ800101
+        Sexo: ""
+        FechaNacimiento: "01011980"
+        Prefijo: ""
+        Residencia: ""
+        ApellidoPaterno: PRUEBA
+        NumeroCedulaProfesional: ""
+        PrimerNombre: !!binary |-
+          SlVBTg==
+        Nacionalidad: MX
+        NumeroDependientes: ""
+        EstadoCivil: ""
+        ClaveOtroPais: ""
+        ClaveImpuestosOtroPais: ""
+      properties:
+        ApellidoPaterno:
+          example: PRUEBA
+          type: string
+        ApellidoMaterno:
+          example: UNO
+          type: string
+        ApellidoAdicional:
+          example: ""
+          type: string
+        PrimerNombre:
+          example: !!binary |-
+            SlVBTg==
+          format: byte
+          type: string
+        SegundoNombre:
+          example: ""
+          type: string
+        FechaNacimiento:
+          example: "01011980"
+          type: string
+        RFC:
+          example: NOPJ800101
+          type: string
+        Prefijo:
+          example: ""
+          type: string
+        Sufijo:
+          example: ""
+          type: string
+        Nacionalidad:
+          example: MX
+          type: string
+        Residencia:
+          example: ""
+          type: string
+        NumeroLicenciaConducir:
+          example: ""
+          type: string
+        EstadoCivil:
+          example: ""
+          type: string
+        Sexo:
+          example: ""
+          type: string
+        NumeroCedulaProfesional:
+          example: ""
+          type: string
+        NumeroRegistroElectoral:
+          example: ""
+          type: string
+        ClaveImpuestosOtroPais:
+          example: ""
+          type: string
+        ClaveOtroPais:
+          example: ""
+          type: string
+        NumeroDependientes:
+          example: ""
+          type: string
+        EdadesDependientes:
+          example: ""
+          type: string
+      type: object
+    ConsultaBuroRequest_Domicilios_Domicilio:
+      example:
+        Direccion2: ""
+        DelegacionMunicipio: MIGUEL HIDALGO
+        CodPais: MX
+        Direccion1: JAIME BALMES 8
+        NumeroTelefono: ""
+        Ciudad: CD DE MEXICO
+        CP: "11510"
+        Estado: DF
+        Extension: ""
+        FechaResidencia: ""
+        TipoDomicilio: ""
+        ColoniaPoblacion: LOS MORALES POLANCO
+        IndicadorEspecialDomicilio: ""
+        Fax: ""
+      properties:
+        Direccion1:
+          example: JAIME BALMES 8
+          type: string
+        Direccion2:
+          example: ""
+          type: string
+        ColoniaPoblacion:
+          example: LOS MORALES POLANCO
+          type: string
+        DelegacionMunicipio:
+          example: MIGUEL HIDALGO
+          type: string
+        Ciudad:
+          example: CD DE MEXICO
+          type: string
+        Estado:
+          example: DF
+          type: string
+        CP:
+          example: "11510"
+          type: string
+        FechaResidencia:
+          example: ""
+          type: string
+        NumeroTelefono:
+          example: ""
+          type: string
+        Extension:
+          example: ""
+          type: string
+        Fax:
+          example: ""
+          type: string
+        TipoDomicilio:
+          example: ""
+          type: string
+        IndicadorEspecialDomicilio:
+          example: ""
+          type: string
+        CodPais:
+          example: MX
+          type: string
+      type: object
+    ConsultaBuroRequest_Domicilios:
+      example:
+        Domicilio:
+          Direccion2: ""
+          DelegacionMunicipio: MIGUEL HIDALGO
+          CodPais: MX
+          Direccion1: JAIME BALMES 8
+          NumeroTelefono: ""
+          Ciudad: CD DE MEXICO
+          CP: "11510"
+          Estado: DF
+          Extension: ""
+          FechaResidencia: ""
+          TipoDomicilio: ""
+          ColoniaPoblacion: LOS MORALES POLANCO
+          IndicadorEspecialDomicilio: ""
+          Fax: ""
+      properties:
+        Domicilio:
+          $ref: '#/components/schemas/ConsultaBuroRequest_Domicilios_Domicilio'
+      type: object
+    ConsultaBuroRequest_Empleos_Empleo:
+      example:
+        Direccion2: ""
+        DelegacionMunicipio: BENITO JUAREZ
+        Cargo: ""
+        CodPais: MX
+        Direccion1: AVENIDA DIVISION DEL NORTE 1611
+        NumeroTelefono: ""
+        Ciudad: CIUDAD DE MEXICO
+        NumeroEmpleado: ""
+        CP: "03100"
+        NombreEmpresa: DELEGACION BENITO JUAREZ
+        Estado: DF
+        Extension: ""
+        BaseSalarial: ""
+        ColoniaPoblacion: SANTA CRUZ ATOYAC
+        FechaContratacion: ""
+        Fax: ""
+        FechaUltimoDiaEmpleo: ""
+        ClaveMonedaSalario: ""
+        Salario: ""
+      properties:
+        NombreEmpresa:
+          example: DELEGACION BENITO JUAREZ
+          type: string
+        Direccion1:
+          example: AVENIDA DIVISION DEL NORTE 1611
+          type: string
+        Direccion2:
+          example: ""
+          type: string
+        ColoniaPoblacion:
+          example: SANTA CRUZ ATOYAC
+          type: string
+        DelegacionMunicipio:
+          example: BENITO JUAREZ
+          type: string
+        Ciudad:
+          example: CIUDAD DE MEXICO
+          type: string
+        Estado:
+          example: DF
+          type: string
+        CP:
+          example: "03100"
+          type: string
+        NumeroTelefono:
+          example: ""
+          type: string
+        Extension:
+          example: ""
+          type: string
+        Fax:
+          example: ""
+          type: string
+        Cargo:
+          example: ""
+          type: string
+        FechaContratacion:
+          example: ""
+          type: string
+        ClaveMonedaSalario:
+          example: ""
+          type: string
+        Salario:
+          example: ""
+          type: string
+        BaseSalarial:
+          example: ""
+          type: string
+        NumeroEmpleado:
+          example: ""
+          type: string
+        FechaUltimoDiaEmpleo:
+          example: ""
+          type: string
+        CodPais:
+          example: MX
+          type: string
+      type: object
+    ConsultaBuroRequest_Empleos:
+      example:
+        Empleo:
+          Direccion2: ""
+          DelegacionMunicipio: BENITO JUAREZ
+          Cargo: ""
+          CodPais: MX
+          Direccion1: AVENIDA DIVISION DEL NORTE 1611
+          NumeroTelefono: ""
+          Ciudad: CIUDAD DE MEXICO
+          NumeroEmpleado: ""
+          CP: "03100"
+          NombreEmpresa: DELEGACION BENITO JUAREZ
+          Estado: DF
+          Extension: ""
+          BaseSalarial: ""
+          ColoniaPoblacion: SANTA CRUZ ATOYAC
+          FechaContratacion: ""
+          Fax: ""
+          FechaUltimoDiaEmpleo: ""
+          ClaveMonedaSalario: ""
+          Salario: ""
+      properties:
+        Empleo:
+          $ref: '#/components/schemas/ConsultaBuroRequest_Empleos_Empleo'
+      type: object
+    ConsultaBuroResponse_Encabezado:
+      example:
+        ClaveRetornoConsumidorSecundario: "0"
+        NumeroControlConsulta: "1212121212"
+        ClaveOtorgante: XX99999999
+        IdentificadorBuro: 2000-01-23
+        ClavePais: MX
+        NumeroReferenciaOperador: 122000854270 1 7086142637
+        ClaveRetornoConsumidorPrincipal: "1"
+      properties:
+        NumeroReferenciaOperador:
+          example: 122000854270 1 7086142637
+          type: string
+        ClavePais:
+          example: MX
+          type: string
+        IdentificadorBuro:
+          format: date
+          type: string
+        ClaveOtorgante:
+          example: XX99999999
+          type: string
+        ClaveRetornoConsumidorPrincipal:
+          example: "1"
+          type: string
+        ClaveRetornoConsumidorSecundario:
+          example: "0"
+          type: string
+        NumeroControlConsulta:
+          example: "1212121212"
+          type: string
+      type: object
+    ConsultaBuroResponse_Nombre:
+      example:
+        FechaNacimiento: "01011980"
+        Prefijo: SR
+        ApellidoMaterno: UNO
+        Residencia: "1"
+        ApellidoPaterno: PRUEBA
+        PrimerNombre: !!binary |-
+          SlVBTg==
+        Nacionalidad: MX
+        EstadoCivil: M
+        RFC: NOPJ800101
+        Sexo: M
+      properties:
+        ApellidoPaterno:
+          example: PRUEBA
+          type: string
+        ApellidoMaterno:
+          example: UNO
+          type: string
+        PrimerNombre:
+          example: !!binary |-
+            SlVBTg==
+          format: byte
+          type: string
+        FechaNacimiento:
+          example: "01011980"
+          type: string
+        RFC:
+          example: NOPJ800101
+          type: string
+        Prefijo:
+          example: SR
+          type: string
+        Nacionalidad:
+          example: MX
+          type: string
+        Residencia:
+          example: "1"
+          type: string
+        EstadoCivil:
+          example: M
+          type: string
+        Sexo:
+          example: M
+          type: string
+      type: object
+    ConsultaBuroResponse_Domicilios_Domicilio:
+      example:
+        DelegacionMunicipio: MIGUEL HIDALGO
+        CodPais: MX
+        Direccion1: INSUR SUR 1007
+        FechaReporteDireccion: "04032016"
+        Ciudad: CD DE MEXICO
+        CP: "11230"
+        Estado: DF
+      properties:
+        Direccion1:
+          example: INSUR SUR 1007
+          type: string
+        DelegacionMunicipio:
+          example: MIGUEL HIDALGO
+          type: string
+        Ciudad:
+          example: CD DE MEXICO
+          type: string
+        Estado:
+          example: DF
+          type: string
+        CP:
+          example: "11230"
+          type: string
+        CodPais:
+          example: MX
+          type: string
+        FechaReporteDireccion:
+          example: "04032016"
+          type: string
+      type: object
+    ConsultaBuroResponse_Domicilios:
+      example:
+        Domicilio:
+          DelegacionMunicipio: MIGUEL HIDALGO
+          CodPais: MX
+          Direccion1: INSUR SUR 1007
+          FechaReporteDireccion: "04032016"
+          Ciudad: CD DE MEXICO
+          CP: "11230"
+          Estado: DF
+      properties:
+        Domicilio:
+          $ref: '#/components/schemas/ConsultaBuroResponse_Domicilios_Domicilio'
+      type: object
+    ConsultaBuroResponse_Empleos_Empleo:
+      example:
+        CodPais: MX
+        Direccion1: ""
+        FechaReportoEmpleo: "14032016"
+        ModoVerificacion: M
+        FechaVerificacion: "14032016"
+        NombreEmpresa: JUBILADO
+      properties:
+        NombreEmpresa:
+          example: JUBILADO
+          type: string
+        Direccion1:
+          example: ""
+          type: string
+        CodPais:
+          example: MX
+          type: string
+        FechaReportoEmpleo:
+          example: "14032016"
+          type: string
+        FechaVerificacion:
+          example: "14032016"
+          type: string
+        ModoVerificacion:
+          example: M
+          type: string
+      type: object
+    ConsultaBuroResponse_Empleos:
+      example:
+        Empleo:
+          CodPais: MX
+          Direccion1: ""
+          FechaReportoEmpleo: "14032016"
+          ModoVerificacion: M
+          FechaVerificacion: "14032016"
+          NombreEmpresa: JUBILADO
+      properties:
+        Empleo:
+          $ref: '#/components/schemas/ConsultaBuroResponse_Empleos_Empleo'
+      type: object
+    ConsultaBuroResponse_Cuentas_Cuenta:
+      example:
+        SaldoVencido: "0"
+        SaldoActual: 10000+
+        IdentificadorCAN: "02010100"
+        NumeroCuentaActual: "989898121212"
+        ModoReportar: M
+        TipoCuenta: I
+        ClaveUnidadMonetaria: MX
+        CreditoMaximo: "50000"
+        FechaUltimaCompra: "01012016"
+        FormaPagoActual: 2000-01-23T04:56:07.000+00:00
+        FechaUltimoPago: "01012016"
+        FechaActualizacion: "20062016"
+        FechaReporte: "09052016"
+        NumeroPagos: "48"
+        FechaAperturaCuenta: "01012016"
+        HistoricoCAN: 11-2
+        FechaMasAntiguaHistoricoCAN: "04092019"
+        IndicadorTipoResponsabilidad: I
+        FechaCancelacionCAN: "01012020"
+        TipoContrato: AU
+        FechaMasRecienteHistoricoCAN: "04122019"
+        NombreOtorgante: BC 1TN
+        LimiteCredito: "50000"
+        FechaAperturaCAN: "01012019"
+        IdentificadorCredito: "Y"
+        ClaveOtorgante: XX99999999
+        MontoPagar: 2000-01-23
+        MontoUltimoPago: 2000-01-23
+        FrecuenciaPagos: M
+      properties:
+        FechaActualizacion:
+          example: "20062016"
+          type: string
+        ClaveOtorgante:
+          example: XX99999999
+          type: string
+        NombreOtorgante:
+          example: BC 1TN
+          type: string
+        NumeroCuentaActual:
+          example: "989898121212"
+          type: string
+        IndicadorTipoResponsabilidad:
+          example: I
+          type: string
+        TipoCuenta:
+          example: I
+          type: string
+        TipoContrato:
+          example: AU
+          type: string
+        ClaveUnidadMonetaria:
+          example: MX
+          type: string
+        NumeroPagos:
+          example: "48"
+          type: string
+        FrecuenciaPagos:
+          example: M
+          type: string
+        MontoPagar:
+          format: date
+          type: string
+        FechaAperturaCuenta:
+          example: "01012016"
+          type: string
+        FechaUltimoPago:
+          example: "01012016"
+          type: string
+        FechaUltimaCompra:
+          example: "01012016"
+          type: string
+        FechaReporte:
+          example: "09052016"
+          type: string
+        ModoReportar:
+          example: M
+          type: string
+        CreditoMaximo:
+          example: "50000"
+          type: string
+        SaldoActual:
+          example: 10000+
+          type: string
+        LimiteCredito:
+          example: "50000"
+          type: string
+        SaldoVencido:
+          example: "0"
+          type: string
+        FormaPagoActual:
+          format: date-time
+          type: string
+        MontoUltimoPago:
+          format: date
+          type: string
+        IdentificadorCredito:
+          example: "Y"
+          type: string
+        IdentificadorCAN:
+          example: "02010100"
+          type: string
+        FechaAperturaCAN:
+          example: "01012019"
+          type: string
+        FechaCancelacionCAN:
+          example: "01012020"
+          type: string
+        HistoricoCAN:
+          example: 11-2
+          type: string
+        FechaMasRecienteHistoricoCAN:
+          example: "04122019"
+          type: string
+        FechaMasAntiguaHistoricoCAN:
+          example: "04092019"
+          type: string
+      type: object
+    ConsultaBuroResponse_Cuentas:
+      example:
+        Cuenta:
+          SaldoVencido: "0"
+          SaldoActual: 10000+
+          IdentificadorCAN: "02010100"
+          NumeroCuentaActual: "989898121212"
+          ModoReportar: M
+          TipoCuenta: I
+          ClaveUnidadMonetaria: MX
+          CreditoMaximo: "50000"
+          FechaUltimaCompra: "01012016"
+          FormaPagoActual: 2000-01-23T04:56:07.000+00:00
+          FechaUltimoPago: "01012016"
+          FechaActualizacion: "20062016"
+          FechaReporte: "09052016"
+          NumeroPagos: "48"
+          FechaAperturaCuenta: "01012016"
+          HistoricoCAN: 11-2
+          FechaMasAntiguaHistoricoCAN: "04092019"
+          IndicadorTipoResponsabilidad: I
+          FechaCancelacionCAN: "01012020"
+          TipoContrato: AU
+          FechaMasRecienteHistoricoCAN: "04122019"
+          NombreOtorgante: BC 1TN
+          LimiteCredito: "50000"
+          FechaAperturaCAN: "01012019"
+          IdentificadorCredito: "Y"
+          ClaveOtorgante: XX99999999
+          MontoPagar: 2000-01-23
+          MontoUltimoPago: 2000-01-23
+          FrecuenciaPagos: M
+      properties:
+        Cuenta:
+          $ref: '#/components/schemas/ConsultaBuroResponse_Cuentas_Cuenta'
+      type: object
+    ConsultaBuroResponse_ConsultasEfectuadas_ConsultaEfectuada:
+      example:
+        FechaConsulta: "05072016"
+        IndicadorTipoResponsabilidad: I
+        ClaveOtorgante: XX99999999
+        TipoContrato: CC
+        NombreOtorgante: BURO DE CREDITO
+        ImporteContrato: "0"
+      properties:
+        FechaConsulta:
+          example: "05072016"
+          type: string
+        ClaveOtorgante:
+          example: XX99999999
+          type: string
+        NombreOtorgante:
+          example: BURO DE CREDITO
+          type: string
+        TipoContrato:
+          example: CC
+          type: string
+        ImporteContrato:
+          example: "0"
+          type: string
+        IndicadorTipoResponsabilidad:
+          example: I
+          type: string
+      type: object
+    ConsultaBuroResponse_ConsultasEfectuadas:
+      example:
+        ConsultaEfectuada:
+          FechaConsulta: "05072016"
+          IndicadorTipoResponsabilidad: I
+          ClaveOtorgante: XX99999999
+          TipoContrato: CC
+          NombreOtorgante: BURO DE CREDITO
+          ImporteContrato: "0"
+      properties:
+        ConsultaEfectuada:
+          $ref: '#/components/schemas/ConsultaBuroResponse_ConsultasEfectuadas_ConsultaEfectuada'
+      type: object
+    ConsultaBuroResponse_ResumenReporte_ResumenReporte:
+      example:
+        TotalSaldosVencidosRevolventes: 2000-01-23
+        NumeroMOPUR: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP96: 2000-01-23T04:56:07.000+00:00
+        PctLimiteCreditoUtilizadoRevolventes: "2"
+        CuentasClavesHistoriaNegativa: 2000-01-23
+        NuevaDireccionReportadaUltimos60Dias: "N"
+        MensajesAlerta: NNNYN
+        TotalPagosPagosFijos: 2000-01-23
+        CuentasPagosFijosHipotecas: 2000-01-23
+        FechaAperturaCuentaMasAntigua: "01012010"
+        CuentasRevolventesAbiertas: 2000-01-23
+        TotalSolicitudesReporte: "99"
+        FechaSolicitudReporteMasReciente: "05072016"
+        ExistenciaDeclaracionesConsumidor: "N"
+        NumeroMOP99: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP1: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP0: 2000-01-23T04:56:07.000+00:00
+        TotalLimitesCreditoRevolventes: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP97: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP7: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP6: 2000-01-23T04:56:07.000+00:00
+        CuentasCerradas: 2000-01-23
+        NumeroTotalCuentasDespachoCobranza: 2000-01-23T04:56:07.000+00:00
+        NumeroTotalSolicitudesDespachosCobranza: 2000-01-23T04:56:07.000+00:00
+        FechaSolicitudMasRecienteDespachoCobranza: "00000000"
+        NumeroMOP3: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP2: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP5: 2000-01-23T04:56:07.000+00:00
+        NumeroMOP4: 2000-01-23T04:56:07.000+00:00
+        TotalCreditosMaximosPagosFijos: 2000-01-23T04:56:07.000+00:00
+        CuentasNegativasActuales: 2000-01-23
+        TotalSaldosVencidosPagosFijos: "0"
+        FechaIngresoBD: "23052013"
+        FechaAperturaCuentaMasRecienteDespachoCobranza: "00000000"
+        NumeroCuentas: 2000-01-23
+        TotalSaldosActualesPagosFijos: 19469+
+        CuentasDisputa: 2000-01-23T04:56:07.000+00:00
+        TotalPagosRevolventes: 2000-01-23
+        NumeroSolicitudesUltimos6Meses: "99"
+        FechaAperturaCuentaMasReciente: "01012016"
+        TipoMoneda: MX
+        TotalSaldosActualesRevolventes: 4270+
+      properties:
+        FechaIngresoBD:
+          example: "23052013"
+          type: string
+        NumeroMOP7:
+          format: date-time
+          type: string
+        NumeroMOP6:
+          format: date-time
+          type: string
+        NumeroMOP5:
+          format: date-time
+          type: string
+        NumeroMOP4:
+          format: date-time
+          type: string
+        NumeroMOP3:
+          format: date-time
+          type: string
+        NumeroMOP2:
+          format: date-time
+          type: string
+        NumeroMOP1:
+          format: date-time
+          type: string
+        NumeroMOP0:
+          format: date-time
+          type: string
+        NumeroMOPUR:
+          format: date-time
+          type: string
+        NumeroCuentas:
+          format: date
+          type: string
+        CuentasPagosFijosHipotecas:
+          format: date
+          type: string
+        CuentasRevolventesAbiertas:
+          format: date
+          type: string
+        CuentasCerradas:
+          format: date
+          type: string
+        CuentasNegativasActuales:
+          format: date
+          type: string
+        CuentasClavesHistoriaNegativa:
+          format: date
+          type: string
+        CuentasDisputa:
+          format: date-time
+          type: string
+        NumeroSolicitudesUltimos6Meses:
+          example: "99"
+          type: string
+        NuevaDireccionReportadaUltimos60Dias:
+          example: "N"
+          type: string
+        MensajesAlerta:
+          example: NNNYN
+          type: string
+        ExistenciaDeclaracionesConsumidor:
+          example: "N"
+          type: string
+        TipoMoneda:
+          example: MX
+          type: string
+        TotalLimitesCreditoRevolventes:
+          format: date-time
+          type: string
+        TotalSaldosActualesRevolventes:
+          example: 4270+
+          type: string
+        TotalSaldosVencidosRevolventes:
+          format: date
+          type: string
+        TotalPagosRevolventes:
+          format: date
+          type: string
+        PctLimiteCreditoUtilizadoRevolventes:
+          example: "2"
+          type: string
+        TotalCreditosMaximosPagosFijos:
+          format: date-time
+          type: string
+        TotalSaldosActualesPagosFijos:
+          example: 19469+
+          type: string
+        TotalSaldosVencidosPagosFijos:
+          example: "0"
+          type: string
+        TotalPagosPagosFijos:
+          format: date
+          type: string
+        NumeroMOP96:
+          format: date-time
+          type: string
+        NumeroMOP97:
+          format: date-time
+          type: string
+        NumeroMOP99:
+          format: date-time
+          type: string
+        FechaAperturaCuentaMasAntigua:
+          example: "01012010"
+          type: string
+        FechaAperturaCuentaMasReciente:
+          example: "01012016"
+          type: string
+        TotalSolicitudesReporte:
+          example: "99"
+          type: string
+        FechaSolicitudReporteMasReciente:
+          example: "05072016"
+          type: string
+        NumeroTotalCuentasDespachoCobranza:
+          format: date-time
+          type: string
+        FechaAperturaCuentaMasRecienteDespachoCobranza:
+          example: "00000000"
+          type: string
+        NumeroTotalSolicitudesDespachosCobranza:
+          format: date-time
+          type: string
+        FechaSolicitudMasRecienteDespachoCobranza:
+          example: "00000000"
+          type: string
+      type: object
+    ConsultaBuroResponse_ResumenReporte:
+      example:
+        ResumenReporte:
+          TotalSaldosVencidosRevolventes: 2000-01-23
+          NumeroMOPUR: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP96: 2000-01-23T04:56:07.000+00:00
+          PctLimiteCreditoUtilizadoRevolventes: "2"
+          CuentasClavesHistoriaNegativa: 2000-01-23
+          NuevaDireccionReportadaUltimos60Dias: "N"
+          MensajesAlerta: NNNYN
+          TotalPagosPagosFijos: 2000-01-23
+          CuentasPagosFijosHipotecas: 2000-01-23
+          FechaAperturaCuentaMasAntigua: "01012010"
+          CuentasRevolventesAbiertas: 2000-01-23
+          TotalSolicitudesReporte: "99"
+          FechaSolicitudReporteMasReciente: "05072016"
+          ExistenciaDeclaracionesConsumidor: "N"
+          NumeroMOP99: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP1: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP0: 2000-01-23T04:56:07.000+00:00
+          TotalLimitesCreditoRevolventes: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP97: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP7: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP6: 2000-01-23T04:56:07.000+00:00
+          CuentasCerradas: 2000-01-23
+          NumeroTotalCuentasDespachoCobranza: 2000-01-23T04:56:07.000+00:00
+          NumeroTotalSolicitudesDespachosCobranza: 2000-01-23T04:56:07.000+00:00
+          FechaSolicitudMasRecienteDespachoCobranza: "00000000"
+          NumeroMOP3: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP2: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP5: 2000-01-23T04:56:07.000+00:00
+          NumeroMOP4: 2000-01-23T04:56:07.000+00:00
+          TotalCreditosMaximosPagosFijos: 2000-01-23T04:56:07.000+00:00
+          CuentasNegativasActuales: 2000-01-23
+          TotalSaldosVencidosPagosFijos: "0"
+          FechaIngresoBD: "23052013"
+          FechaAperturaCuentaMasRecienteDespachoCobranza: "00000000"
+          NumeroCuentas: 2000-01-23
+          TotalSaldosActualesPagosFijos: 19469+
+          CuentasDisputa: 2000-01-23T04:56:07.000+00:00
+          TotalPagosRevolventes: 2000-01-23
+          NumeroSolicitudesUltimos6Meses: "99"
+          FechaAperturaCuentaMasReciente: "01012016"
+          TipoMoneda: MX
+          TotalSaldosActualesRevolventes: 4270+
+      properties:
+        ResumenReporte:
+          $ref: '#/components/schemas/ConsultaBuroResponse_ResumenReporte_ResumenReporte'
+      type: object
+    ConsultaBuroResponse_HawkAlertConsulta_HawkAlertC:
+      example:
+        Mensaje: DATOS GENERALES - COINCIDENCIA POR RFC
+        CodigoClave: "020"
+        FechaReporte: "31072014"
+        TipoInstitucion: FINANCIERA
+      properties:
+        FechaReporte:
+          example: "31072014"
+          type: string
+        CodigoClave:
+          example: "020"
+          type: string
+        TipoInstitucion:
+          example: FINANCIERA
+          type: string
+        Mensaje:
+          example: DATOS GENERALES - COINCIDENCIA POR RFC
+          type: string
+      type: object
+    ConsultaBuroResponse_HawkAlertConsulta:
+      example:
+        HawkAlertC:
+          Mensaje: DATOS GENERALES - COINCIDENCIA POR RFC
+          CodigoClave: "020"
+          FechaReporte: "31072014"
+          TipoInstitucion: FINANCIERA
+      properties:
+        HawkAlertC:
+          $ref: '#/components/schemas/ConsultaBuroResponse_HawkAlertConsulta_HawkAlertC'
+      type: object
+    ConsultaBuroResponse_HawkAlertBD_HawkAlertBD:
+      example:
+        Mensaje: DOM. PARTICULAR 3 - COINCIDENCIA POR DOMICILIO
+        CodigoClave: "010"
+        FechaReporte: "13082015"
+        TipoInstitucion: FINANCIERA
+      properties:
+        FechaReporte:
+          example: "13082015"
+          type: string
+        CodigoClave:
+          example: "010"
+          type: string
+        TipoInstitucion:
+          example: FINANCIERA
+          type: string
+        Mensaje:
+          example: DOM. PARTICULAR 3 - COINCIDENCIA POR DOMICILIO
+          type: string
+      type: object
+    ConsultaBuroResponse_HawkAlertBD:
+      example:
+        HawkAlertBD:
+          Mensaje: DOM. PARTICULAR 3 - COINCIDENCIA POR DOMICILIO
+          CodigoClave: "010"
+          FechaReporte: "13082015"
+          TipoInstitucion: FINANCIERA
+      properties:
+        HawkAlertBD:
+          $ref: '#/components/schemas/ConsultaBuroResponse_HawkAlertBD_HawkAlertBD'
+      type: object
+    ConsultaBuroResponse_DeclaracionesCliente:
+      example:
+        DeclaracionConsumidor: DECLARATIVA GENERAL
+      properties:
+        DeclaracionConsumidor:
+          example: DECLARATIVA GENERAL
+          type: string
+      type: object
+    ConsultaBuroResponse_ScoreBuroCredito_ScoreBC:
+      example:
+        CodigoRazon: "13"
+        nombreScore: BC SCORE
+        ValorScore: 2000-01-23
+        CodigoScore: "007"
+      properties:
+        nombreScore:
+          example: BC SCORE
+          type: string
+        CodigoScore:
+          example: "007"
+          type: string
+        ValorScore:
+          format: date
+          type: string
+        CodigoRazon:
+          example: "13"
+          type: string
+      type: object
+    ConsultaBuroResponse_ScoreBuroCredito:
+      example:
+        ScoreBC:
+          CodigoRazon: "13"
+          nombreScore: BC SCORE
+          ValorScore: 2000-01-23
+          CodigoScore: "007"
+      properties:
+        ScoreBC:
+          $ref: '#/components/schemas/ConsultaBuroResponse_ScoreBuroCredito_ScoreBC'
+      type: object

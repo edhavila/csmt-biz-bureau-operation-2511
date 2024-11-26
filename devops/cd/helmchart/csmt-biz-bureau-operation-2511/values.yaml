@@ -1,0 +1,61 @@
+# Default values for csmt-biz-bureau-operation-2511.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+nameOverride: cards
+replicaCount: 1
+microservice:
+  Name: csmt-biz-bureau-operation-2511
+  port: PortNo
+  httpsport: PortsNo
+  image: "imageName"
+  PullPolicy: Always
+  imageSecret:
+  #ConfigServerURI: "http://9.42.9.171:8888/configserver/"
+  configServerURI: ConfigServerURL
+  namespace:
+  profile: docker
+  containerport: 8080
+  containerporthttps: 9443
+  kafkaUrl: kafkaurl
+  gateway: banking-gateway
+  dataSourceHost: dataSourceHost
+  dataSourcePort: dataSourcePort
+  database: database
+  mongodbAuthentication: mongodbAuthentication
+  mongoDbUri: mongoDbUri
+  type: LoadBalancer
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    -
+  tls:
+    - secretName:
+      hosts:
+        -
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
